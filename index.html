@@ -9,7 +9,7 @@
     />
     <style>
       body {
-        font: normal 14px/1 "Quicksand", sans-serif;
+        font: normal 14px/1.5 "Quicksand", sans-serif;
       }
     </style>
   </head>
@@ -18,11 +18,13 @@
     <app-store>
       <app-header>Cart Count:</app-header>
       <br />
-      <app-productcard count="1" offset="2">
+      <app-productcard count="1" offset="2" price="499">
         <span slot="title">Apple iPhone XS 64GB Space Gray</span>
+        <!-- <span slot="price">499.00</span> -->
       </app-productcard>
-      <app-productcard>
+      <app-productcard price="3998">
         <span slot="title">Sony UHD TV 75" KD75X8500G</span>
+        <!-- <span slot="price">3,998.00</span> -->
       </app-productcard>
     </app-store>
 
