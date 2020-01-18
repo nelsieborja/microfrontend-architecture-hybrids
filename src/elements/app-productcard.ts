@@ -56,7 +56,7 @@ const AppProductCard: Hybrids<AppProductCard> = {
         :host {
           display: inline-flex;
           flex-direction: column;
-          width: 200px;
+          width: 220px;
         }
 
         slot[name="title"] {
@@ -71,6 +71,10 @@ const AppProductCard: Hybrids<AppProductCard> = {
           font-size: 20px;
           font-weight: 700;
           margin: 4px 0 14px;
+        }
+
+        ui-card {
+          --m: 4px;
         }
 
         ui-badge {

@@ -6,8 +6,8 @@ const UiCard = {
       :host {
         border: 2px solid #f3f3f3;
         border-radius: 3px;
-        display: block;
-        padding: 20px;
+        padding: var(--p, 20px);
+        margin: var(--m, 0);
       }
     </style>
     <slot></slot>
