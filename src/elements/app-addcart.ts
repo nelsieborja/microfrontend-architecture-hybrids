@@ -1,37 +1,28 @@
-import { define, html, parent } from "hybrids";
+import { define, dispatch, html } from "hybrids";
+import { Hybrids } from "hybrids";
 
-import THybridsElement, { IHybridsDescriptors } from "../types/hybrids.types";
-
-import AppStore, { getValueFromStore, pushToStore } from "./app-store";
 import AppButton from "../ui/ui-button";
 
-const onDecHandler = (host: TAppAddCart) => {
-  if (host.count - host.offset < 0) return;
-  host.count -= host.offset;
-};
-
-const onIncHandler = (host: TAppAddCart) => {
-  host.count += host.offset;
-};
-
-const AppAddCart: THybridsElement<{
+interface AppAddCart extends HTMLElement {
   count: number;
   offset: number;
-  cartCount: IHybridsDescriptors<TAppAddCart>;
-}> = {
-  store: parent(AppStore),
+}
+
+const onDecHandler = (host: AppAddCart) => {
+  if (host.count - host.offset < 0) return;
+  host.count -= host.offset;
+  dispatch(host, "input");
+};
+
+const onIncHandler = (host: AppAddCart) => {
+  host.count += host.offset;
+  dispatch(host, "input");
+};
+
+const AppAddCart: Hybrids<AppAddCart> = {
   count: 0,
   offset: 1,
-  cartCount: {
-    get: host => host.count,
-    observe: (host, value, lastValue) => {
-      const cartCount = getValueFromStore(host.store, "cartCount") || 0;
-      const offset = value - (lastValue || 0);
-
-      pushToStore(host.store, { cartCount: cartCount + offset });
-    }
-  },
-  render: ({ count, store }) =>
+  render: ({ count }) =>
     html`
       <style>
         div {
@@ -51,6 +42,5 @@ const AppAddCart: THybridsElement<{
     `.define({ AppButton })
 };
 
-type TAppAddCart = typeof AppAddCart;
 define("app-addcart", AppAddCart);
 export default AppAddCart;

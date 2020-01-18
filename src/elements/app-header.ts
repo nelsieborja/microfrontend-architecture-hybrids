@@ -1,16 +1,26 @@
+import { Hybrids } from "hybrids";
 import { define, html, parent } from "hybrids";
-
-import THybridsElement from "../types/hybrids.types";
 
 import AppStore from "./app-store";
 import UiBadge from "../ui/ui-badge";
 
-const AppHeader: THybridsElement = {
+import connect from "../factories/connectFactory";
+
+interface AppHeader extends HTMLElement {
+  store: AppStore;
+  count: number;
+}
+
+const AppHeader: Hybrids<AppHeader> = {
   store: parent(AppStore),
+  count: connect(state => state.cart.count),
   render: host =>
     html`
       <style>
-        :host {
+         {
+          /*:host {*/
+        }
+        header {
           background: #000;
           color: #fff;
           display: block;
@@ -23,10 +33,13 @@ const AppHeader: THybridsElement = {
           margin-left: 10px;
         }
       </style>
-      <slot></slot> <ui-badge>${host.store.data.cartCount}</ui-badge>
+      <header>
+        <slot></slot>
+        <ui-badge>Hybrids ${host.store.data.cartCount}</ui-badge>
+        <ui-badge>Redux ${host.count}</ui-badge>
+      </header>
     `.define({ UiBadge })
 };
 
-type TAppHeader = typeof AppHeader;
 define("app-header", AppHeader);
 export default AppHeader;

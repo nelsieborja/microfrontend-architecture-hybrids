@@ -1,23 +1,23 @@
-import { define, property, render } from "hybrids";
+import { define, html, property, render } from "hybrids";
+import { Hybrids } from "hybrids";
 
-import { TDynamicObject } from "../types/types";
-import THybridsElement from "../types/hybrids.types";
-
-const AppStore: THybridsElement<{
-  data: TDynamicObject;
-}> = {
-  data: property({}),
-  render: render(() => () => {}, { shadowRoot: false })
+interface AppStore extends HTMLElement {
+  data: {
+    cartCount: number;
+  };
+}
+const AppStore: Hybrids<AppStore> = {
+  data: property({ cartCount: 0 })
 };
 
 define("app-store", AppStore);
 export default AppStore;
 
-export const getValueFromStore = (store: TDynamicObject, key: string) => {
+export const getValueFromStore = (store: AppStore, key: string) => {
   return store.data[key];
 };
 
-export const pushToStore = (store: TDynamicObject, value: Object) => {
+export const pushToStore = (store: AppStore, value: Object) => {
   store.data = {
     ...store.data,
     ...value

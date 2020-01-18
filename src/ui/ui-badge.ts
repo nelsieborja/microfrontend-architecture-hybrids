@@ -7,7 +7,7 @@ const UiBadge = {
         background: var(--bg, green);
         border-radius: var(--br, 3px);
         color: #fff;
-        font-size: 10px;
+        font-size: var(--fs, 10px);
         padding: 2px 6px;
       }
     </style>

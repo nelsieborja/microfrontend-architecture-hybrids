@@ -1,28 +1,55 @@
-import { define, html, property } from "hybrids";
+import { Hybrids } from "hybrids";
+import { define, html, parent, property } from "hybrids";
+
+import { priceFormat } from "../utils/helpers";
 
 import AppAddCart from "./app-addcart";
 import UiBadge from "../ui/ui-badge";
 import UiCard from "../ui/ui-card";
 
-const onChangeHandler = (host: TAppProductCard, event: any) => {
-  host.totalPrice = event.target.count * host.price;
+import AppStore, { getValueFromStore, pushToStore } from "./app-store";
+import { dispatch } from "../store";
+
+interface AppProductCard extends HTMLElement {
+  store: AppStore;
+  count: number;
+  cartCount: number;
+  offset: number;
+  price: number;
+  totalPrice: number;
+}
+const onChangeHandler = (host: AppProductCard, event: any) => {
+  const { count } = event.target;
+  const offset = count - host.count;
+  const subtotal = count * host.price - host.totalPrice;
+
+  dispatch.cart.updateCount({ offset });
+  dispatch.orderSummary.updateTotal({ subtotal });
+  host.count = count;
 };
 
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
-const priceFormat = (price: number) =>
-  price.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD"
-  });
-
-const AppProductCard = {
-  count: 0,
+const AppProductCard: Hybrids<AppProductCard> = {
+  store: parent(AppStore),
+  count: property(0, (host, key) => {
+    dispatch.cart.updateCount({ offset: host[key] });
+  }),
   offset: 1,
   price: 0,
-  totalPrice: property(0, ({ count, price }) => {
-    console.log(count * price);
-    return count * price; // initial render won't work 😱
-  }),
+  totalPrice: {
+    get: ({ count, price }) => count * price,
+    connect: (host, key) => {
+      dispatch.orderSummary.updateTotal({ subtotal: host[key] });
+    }
+  },
+  cartCount: {
+    get: host => host.count,
+    observe: (host, value, lastValue) => {
+      const cartCount = getValueFromStore(host.store, "cartCount");
+      const offset = value - (lastValue || 0);
+
+      pushToStore(host.store, { cartCount: cartCount + offset });
+    }
+  },
   render: ({ count, offset, price, totalPrice }) =>
     html`
       <style>
@@ -58,12 +85,11 @@ const AppProductCard = {
         <app-addcart
           count="${count}"
           offset="${offset}"
-          onclick="${onChangeHandler}"
+          oninput="${onChangeHandler}"
         ></app-addcart>
       </ui-card>
     `.define({ AppAddCart, UiBadge, UiCard })
 };
 
-type TAppProductCard = typeof AppProductCard;
 define("app-productcard", AppProductCard);
 export default AppProductCard;

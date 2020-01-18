@@ -8,8 +8,26 @@
       rel="stylesheet"
     />
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
       body {
         font: normal 14px/1.5 "Quicksand", sans-serif;
+      }
+
+      app-store {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
       }
     </style>
   </head>
@@ -17,15 +35,19 @@
   <body>
     <app-store>
       <app-header>Cart Count:</app-header>
-      <br />
-      <app-productcard count="1" offset="2" price="499">
-        <span slot="title">Apple iPhone XS 64GB Space Gray</span>
-        <!-- <span slot="price">499.00</span> -->
-      </app-productcard>
-      <app-productcard price="3998">
-        <span slot="title">Sony UHD TV 75" KD75X8500G</span>
-        <!-- <span slot="price">3,998.00</span> -->
-      </app-productcard>
+
+      <main>
+        <app-productcard count="1" offset="2" price="499">
+          <span slot="title">Apple iPhone XS 64GB Space Gray</span>
+          <!-- <span slot="price">499.00</span> -->
+        </app-productcard>
+        <app-productcard price="3998">
+          <span slot="title">Sony UHD TV 75" KD75X8500G</span>
+          <!-- <span slot="price">3,998.00</span> -->
+        </app-productcard>
+      </main>
+
+      <app-footer></app-footer>
     </app-store>
 
     <script src="src/index.js"></script>
