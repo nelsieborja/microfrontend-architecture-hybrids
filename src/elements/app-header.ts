@@ -36,7 +36,7 @@ const AppHeader: Hybrids<AppHeader> = {
       <header>
         <slot></slot>
         <ui-badge>Hybrids ${host.store.data.cartCount}</ui-badge>
-        <ui-badge>Redux ${host.count}</ui-badge>
+        <ui-badge>Redux Toolkit ${host.count}</ui-badge>
       </header>
     `.define({ UiBadge })
 };
