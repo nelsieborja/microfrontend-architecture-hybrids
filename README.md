@@ -4,5 +4,5 @@
 TODO
 
 - [x] Hybrids as the main library, for a future-proof components
-- [x] Redux Toolkit for global state (and maybe for independent components). [Post.js](https://github.com/postaljs/postal.js) as an alternative using pub/sub approach
+- [x] Redux Toolkit for global state (and maybe for independent components). [Post.js](https://github.com/postaljs/postal.js)/[@pixi/runner](https://www.npmjs.com/package/@pixi/runner) as an alternative using pub/sub approach
 - [ ] Integration with other libraries (React or probably [one if these](https://buttercms.com/blog/javascript-ui-frameworks-libraries-for-2020))
